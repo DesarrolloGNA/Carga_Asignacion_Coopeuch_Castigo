@@ -52,20 +52,21 @@ namespace Carga_Asignacion_Coopeuch_Castigo
                         ,[Saldo IBS (cierre mes anterior)],[Dirección],[Complemento Direccion]
                         ,[Nombre Comuna],[Celular],[Telefono Primario],[Telefono Secundario]
                         ,[Direccion Email],[INTERES MORA],[TASA],[SCRIPT])
-                        VALUES(@OPERACION_GRUPO_CREDITO,@OFICINA,@RUT_SOCIO,@DV,@NOMBRE_SOCIO,
+                        VALUES(@OPERACION,@OFICINA,@RUT_SOCIO,@DV,@NOMBRE_SOCIO,
                         @COMUNA_SOCIO,@FECHA_CASTIGO,@GRUPO_CREDITO,@NOMBRE_PRODUCTO,@ACCIONES,
                         @SALDO_IBS,@DIRECCION,@COMPLEMENTO_DIRECCION,@NOMBRE_COMUNA,@CELULAR,
-                        @TELEFONO_PRIMARIO,@TELEFONO_SECUNDARIO,@DIRECCION_EMAIL,@INTERES_MORA,@TASA,NULL)";
+                        @TELEFONO_PRIMARIO,@TELEFONO_SECUNDARIO,@DIRECCION_EMAIL,
+                        @INTERES_MORA,@TASA,NULL)";
 
                     SqlCommand cmd = new SqlCommand(commandString, con);
                     cmd.Parameters.AddWithValue("@OPERACION", i.OPERACION);
                     //cmd.Parameters.AddWithValue("@BASE", i.BASE);
                     //cmd.Parameters.AddWithValue("@AVENIMIENTO", i.AVENIMIENTO);
-                    //cmd.Parameters.AddWithValue("@OBSERVACIÓN", i.OBSERVACION);
+                    //cmd.Parameters.AddWithValue("@OBSERVACION", i.OBSERVACION);
                     //cmd.Parameters.AddWithValue("@VIGENCIA", i.VIGENCIA);
                     //cmd.Parameters.AddWithValue("@CONTRALOR", i.CONTRALOR);
                     //cmd.Parameters.AddWithValue("@GESTOR_MES_CURSO", i.GESTOR_MES_CURSO);
-                    //cmd.Parameters.AddWithValue("@SUSPENSIÓN_LEY_DE_QUIEBRA", i.SUSPENSION_LEY_DE_QUIEBRA);
+                    //cmd.Parameters.AddWithValue("@SUSPENSON_LEY_DE_QUIEBRA", i.SUSPENSION_LEY_DE_QUIEBRA);
                     //cmd.Parameters.AddWithValue("@COD_CONVENIO", i.COD_CONVENIO);
                     cmd.Parameters.AddWithValue("@OFICINA", i.OFICINA);
                     //cmd.Parameters.AddWithValue("@GERENCIA_REGIONAL", i.GERENCIA_REGIONAL);
@@ -86,16 +87,16 @@ namespace Carga_Asignacion_Coopeuch_Castigo
                     //cmd.Parameters.AddWithValue("@MTO_CASTIGO_FA_CASTIGO", i.MTO_CASTIGO_FA_CASTIGO);
                     //cmd.Parameters.AddWithValue("@MTO_CASTIGO_CTA_5400", i.MTO_CASTIGO_CTA_5400);
                     //cmd.Parameters.AddWithValue("@ABONOS_AL_CIERRE_MES_ANTERIOR", i.ABONOS_AL_CIERRE_MES_ANTERIOR);
-                    cmd.Parameters.AddWithValue("@SALDO_IBS_CIERRE_MES_ANTERIOR", i.SALDO_IBS_CIERRE_MES_ANTERIOR);
+                    cmd.Parameters.AddWithValue("@SALDO_IBS", i.SALDO_IBS_CIERRE_MES_ANTERIOR);
                     //cmd.Parameters.AddWithValue("@MTO_RECUPERADO_CONTABLE", i.MTO_RECUPERADO_CONTABLE);
                     //cmd.Parameters.AddWithValue("@FECHA_RECUPERO", i.FECHA_RECUPERO);
                     //cmd.Parameters.AddWithValue("@FECHA_ULTIMO_ABONO", i.FECHA_ULTIMO_ABONO);
                     //cmd.Parameters.AddWithValue("@MONTO_ULTIMO_ABONO", i.MONTO_ULTIMO_ABONO);
                     //cmd.Parameters.AddWithValue("@RECUPERO_CON_INTERES", i.RECUPERO_CON_INTERES);
-                    //cmd.Parameters.AddWithValue("@REASIGNACIÓN", i.REASIGNACION);
+                    //cmd.Parameters.AddWithValue("@REASIGNACION", i.REASIGNACION);
                     //cmd.Parameters.AddWithValue("@SALDO_URANO", i.SALDO_URANO);
                     //cmd.Parameters.AddWithValue("@TIPO_RECUPERO", i.TIPO_RECUPERO);
-                    cmd.Parameters.AddWithValue("@DIRECCIÓN", i.DIRECCION);
+                    cmd.Parameters.AddWithValue("@DIRECCION", i.DIRECCION);
                     cmd.Parameters.AddWithValue("@COMPLEMENTO_DIRECCION", i.COMPLEMENTO_DIRECCION);
                     cmd.Parameters.AddWithValue("@NOMBRE_COMUNA", i.NOMBRE_COMUNA);
                     cmd.Parameters.AddWithValue("@CELULAR", i.CELULAR);
@@ -127,30 +128,30 @@ namespace Carga_Asignacion_Coopeuch_Castigo
         }
         private static void Leer_Excel(string ruta)
         {
-                int contador = 0;
-                string Campo = "";
-                DateTime Fecha_Actual = DateTime.Now;
-                /*--------------------------------------------------------------------------------*/
-                /*                              LECTURA DE ARCHIVO                                */
-                /*--------------------------------------------------------------------------------*/
-                try
+            int contador = 0;
+            string Campo = "";
+            DateTime Fecha_Actual = DateTime.Now;
+            /*--------------------------------------------------------------------------------*/
+            /*                              LECTURA DE ARCHIVO                                */
+            /*--------------------------------------------------------------------------------*/
+            try
+            {
+                using (var stream = File.Open(ruta, FileMode.Open, FileAccess.Read))
                 {
-                    using (var stream = File.Open(ruta, FileMode.Open, FileAccess.Read))
+                    using (var reader = ExcelReaderFactory.CreateReader(stream, new ExcelReaderConfiguration()
                     {
-                        using (var reader = ExcelReaderFactory.CreateReader(stream, new ExcelReaderConfiguration()
-                        {
-                            FallbackEncoding = Encoding.UTF8,
-                            LeaveOpen = false,
-                            AnalyzeInitialCsvRows = 0,
-                        }))
-                        {
+                        FallbackEncoding = Encoding.UTF8,
+                        LeaveOpen = false,
+                        AnalyzeInitialCsvRows = 0,
+                    }))
+                    {
                         do
                         {
                             //recorro el excel
                             while (reader.Read())
                             {
                                 //omito cabecera
-                                if (contador > 1) 
+                                if (contador > 1)
                                 {
                                     Asignacion_Coopeuch_Castigo Input = new Asignacion_Coopeuch_Castigo();
 
@@ -162,7 +163,7 @@ namespace Carga_Asignacion_Coopeuch_Castigo
                                     Input.BASE = "";/*reader.GetValue(2) != null ? reader.GetValue(3).ToString() : "";*/
                                     Campo = "AVENIMIENTO";
                                     Input.AVENIMIENTO = "";/*reader.GetValue(3) != null ? reader.GetValue(2).ToString() : "";*/
-                                    Campo = "OBSERVACIÓN";
+                                    Campo = "OBSERVACION";
                                     Input.OBSERVACION = "";/*reader.GetValue(4) != null ? reader.GetValue(4).ToString() : "";*/
                                     Campo = "VIGENCIA";
                                     Input.VIGENCIA = "";/*reader.GetValue(5) != null ? reader.GetValue(5).ToString() : "";*/
@@ -224,7 +225,7 @@ namespace Carga_Asignacion_Coopeuch_Castigo
                                     Input.MONTO_ULTIMO_ABONO = 0;/* reader.GetValue(33) != null ? float.Parse(reader.GetValue(33).ToString()) : 0;*/
                                     Campo = "RECUPERO_CON_INTERES";
                                     Input.RECUPERO_CON_INTERES = 0;/* reader.GetValue(34) != null ? float.Parse(reader.GetValue(34).ToString()) : 0;*/
-                                    Campo = "REASIGNACIÓN";
+                                    Campo = "REASIGNACION";
                                     Input.REASIGNACION = ""; /* reader.GetValue(35) != null ? reader.GetValue(35).ToString() : "";*/
                                     Campo = "SALDO_URANO";
                                     Input.SALDO_URANO = 0;/* reader.GetValue(36) != null ? float.Parse(reader.GetValue(36).ToString()) : 0;*/
@@ -266,18 +267,20 @@ namespace Carga_Asignacion_Coopeuch_Castigo
                                     Input.INTERES_MORA = reader.GetValue(57) != null ? float.Parse(reader.GetValue(57).ToString()) : 0;
                                     Campo = "TASA";
                                     Input.TASA = reader.GetValue(58) != null ? float.Parse(reader.GetValue(58).ToString()) : 0;
+
+                                    Lista_Asignacion_Coopeuch_Castigos.Add(Input);
                                 }
                                 contador++;
                             }
                         } while (reader.NextResult());
-                        }
                     }
                 }
-                catch (Exception e)
-                {
-                    string mensaje = "Campo: " + Campo + " contador: " + contador + " error: " + e;
-                    Console.WriteLine(mensaje);
-                }
+            }
+            catch (Exception e)
+            {
+                string mensaje = "Campo: " + Campo + " contador: " + contador + " error: " + e;
+                Console.WriteLine(mensaje);
+            }
         }
 
         public class Asignacion_Coopeuch_Castigo
@@ -331,15 +334,15 @@ namespace Carga_Asignacion_Coopeuch_Castigo
             public String TRAMO_EDAD { get; set; }
             public String TIPO_DEUDA { get; set; }
             public String PAGA_PAGA { get; set; }
-            public String  PAGOS_3_ULTIMOS_6_MESES { get; set; }
+            public String PAGOS_3_ULTIMOS_6_MESES { get; set; }
             public String PAGO_MES_ANTERIOR { get; set; }
             public String FLUJO { get; set; }
-            public String  PAGOS_2_VIGENTE { get; set; }
+            public String PAGOS_2_VIGENTE { get; set; }
             public float PUNTAJE_MODELO { get; set; }
             public float INTERES_MORA { get; set; }
             public float TASA { get; set; }
-            
+
         }
-        
+
     }
 }

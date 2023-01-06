@@ -264,7 +264,7 @@ namespace Carga_Asignacion_Coopeuch_Castigo
                                     Campo = "PUNTAJE_MODELO";
                                     Input.PUNTAJE_MODELO = 0;/*reader.GetValue(53) != null ? float.Parse(reader.GetValue(53).ToString()) : 0;*/
                                     Campo = "INTERES_MORA";
-                                    Input.INTERES_MORA = reader.GetValue(57) != null ? float.Parse(reader.GetValue(57).ToString()) : 0;
+                                    Input.INTERES_MORA = reader.GetValue(57) != null ? int.Parse(reader.GetValue(57).ToString()) : 0;
                                     Campo = "TASA";
                                     Input.TASA = reader.GetValue(58) != null ? float.Parse(reader.GetValue(58).ToString()) : 0;
 
@@ -339,7 +339,7 @@ namespace Carga_Asignacion_Coopeuch_Castigo
             public String FLUJO { get; set; }
             public String PAGOS_2_VIGENTE { get; set; }
             public float PUNTAJE_MODELO { get; set; }
-            public float INTERES_MORA { get; set; }
+            public int INTERES_MORA { get; set; }
             public float TASA { get; set; }
 
         }

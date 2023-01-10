@@ -128,7 +128,7 @@ namespace Carga_Asignacion_Coopeuch_Castigo
         }
         private static void Leer_Excel(string ruta)
         {
-            int contador = 0;
+            int contador = 1;
             string Campo = "";
             DateTime Fecha_Actual = DateTime.Now;
             /*--------------------------------------------------------------------------------*/

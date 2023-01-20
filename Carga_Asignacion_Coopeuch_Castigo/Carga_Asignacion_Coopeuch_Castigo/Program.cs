@@ -23,7 +23,7 @@ namespace Carga_Asignacion_Coopeuch_Castigo
 
             foreach (FileInfo file in files)
             {
-                if (file.Name.Contains("Base_Castigos"))
+                if (file.Name.ToUpper().Contains("Base_Castigo"))
                 {
                     String Ruta_Archivo = @"C:\coopeuch\asignacion\" + file.Name;
                     Console.WriteLine("Lectura del Archivo: " + file.Name.ToString());
@@ -42,7 +42,7 @@ namespace Carga_Asignacion_Coopeuch_Castigo
                 /*                      CARGA A LA BASE DE DATOS                           */
                 /*-------------------------------------------------------------------------*/
 
-                string connstring = @"Data Source=192.168.0.77; Initial Catalog=EJFDES; Persist Security Info=True; User ID=sa; Password=Desa2019;";
+                string connstring = @"Data Source=192.168.0.5; Initial Catalog=EJFDES; Persist Security Info=True; User ID=sa; Password=w2003ejf103;";
                 using (SqlConnection con = new SqlConnection(connstring))
                 {
                     con.Open();
@@ -121,7 +121,7 @@ namespace Carga_Asignacion_Coopeuch_Castigo
 
                 }
             }
-            Console.ReadKey();
+            //Console.ReadKey();
 
             Lista_Asignacion_Coopeuch_Castigos = null;
             GC.Collect();
@@ -220,7 +220,7 @@ namespace Carga_Asignacion_Coopeuch_Castigo
                                     Campo = "FECHA_RECUPERO";
                                     Input.FECHA_RECUPERO = "";/*reader.GetValue(31) != null ? reader.GetValue(31).ToString() : "";*/
                                     Campo = "FECHA_ULTIMO_ABONO";
-                                    Input.FECHA_ULTIMO_ABONO = reader.GetValue(32) != null ? DateTime.Parse(reader.GetValue(32).ToString()) : DateTime.Parse("1900-01-01");
+                                    Input.FECHA_ULTIMO_ABONO = DateTime.Parse("1900-01-01");/*reader.GetValue(32) != null ? DateTime.Parse(reader.GetValue(32).ToString()) : DateTime.Parse("1900-01-01");*/
                                     Campo = "MONTO_ULTIMO_ABONO";
                                     Input.MONTO_ULTIMO_ABONO = 0;/* reader.GetValue(33) != null ? float.Parse(reader.GetValue(33).ToString()) : 0;*/
                                     Campo = "RECUPERO_CON_INTERES";

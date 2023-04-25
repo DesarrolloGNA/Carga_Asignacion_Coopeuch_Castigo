@@ -19,12 +19,14 @@ namespace Carga_Asignacion_Coopeuch_Castigo
             /*                             RUTA DEL ARCHIVO                            */
             /*-------------------------------------------------------------------------*/
             DirectoryInfo di = new DirectoryInfo(@"C:\coopeuch\asignacion\");
-            FileInfo[] files = di.GetFiles("*");
+            FileInfo[] files = di.GetFiles("*.xlsx");
 
             foreach (FileInfo file in files)
             {
-                if (file.Name.ToUpper().Contains("Base_Castigo"))
+                Console.WriteLine("entre al forach");
+                if (file.Name.Contains("Base_Castigo"))
                 {
+                    Console.WriteLine("entre al if");
                     String Ruta_Archivo = @"C:\coopeuch\asignacion\" + file.Name;
                     Console.WriteLine("Lectura del Archivo: " + file.Name.ToString());
                     /*-------------------------------------------------------------------------*/
@@ -41,7 +43,7 @@ namespace Carga_Asignacion_Coopeuch_Castigo
                 /*-------------------------------------------------------------------------*/
                 /*                      CARGA A LA BASE DE DATOS                           */
                 /*-------------------------------------------------------------------------*/
-
+                //string connstring = @"Data Source=192.168.0.77; Initial Catalog=EJFDES; Persist Security Info=True; User ID=sa; Password=Desa2019;";
                 string connstring = @"Data Source=192.168.0.5; Initial Catalog=EJFDES; Persist Security Info=True; User ID=sa; Password=w2003ejf103;";
                 using (SqlConnection con = new SqlConnection(connstring))
                 {
